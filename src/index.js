@@ -5,22 +5,6 @@ import { exec } from '@actions/exec';
 import SizePlugin from 'size-plugin-core';
 import { fileExists, diffTable, toBool, stripHash } from './utils.js';
 
-const inputNames = [
-  'cwd,'
-  'build-script'
-  'clean-script'
-  'compression'
-  'pattern'
-  'exclude'
-  'stripHash'
-  'collapse-unchanged'
-  'omit-unchanged'
-  'show-total'
-  'minimum-change-threshold'
-  'use-check',
-  'repo-token'
-]
-
 /**
  * @typedef {ReturnType<typeof import("@actions/github").getOctokit>} Octokit
  * @typedef {typeof import("@actions/github").context} ActionContext
@@ -53,11 +37,6 @@ async function run(octokit, context, token) {
 			`Unsupported eventName in github.context: ${context.eventName}. Only "pull_request", "pull_request_target", and "push" triggered workflows are currently supported.`
 		);
 	}
-
-  console.log(`inputs`, JSON.stringify(inputNames.reduce((inputValues, name) => {
-    inputValues[name] = getInput(name)
-    return inputValues
-  }, {}), null, 2));
 
 	if (getInput('cwd')) process.chdir(getInput('cwd'));
 
